@@ -26,7 +26,7 @@ namespace Likvido.EfCore.SqlServerContextFactory
 
         public ContextFactory(string settingsPath, string environmentName)
         {
-            if (string.IsNullOrEmpty(environmentName!))
+            if (string.IsNullOrEmpty(environmentName))
             {
                 throw new ArgumentException($"{nameof(environmentName)} is empty");
             }
