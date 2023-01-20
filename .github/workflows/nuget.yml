@@ -15,11 +15,17 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Publish NuGet
-        uses: brandedoutcast/publish-nuget@v2.5.5
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
         with:
-          PROJECT_FILE_PATH: src/Likvido.EfCore.SqlServerContextFactory/Likvido.EfCore.SqlServerContextFactory.csproj
-          VERSION_FILE_PATH: src/version.props
-          PACKAGE_NAME: Likvido.EfCore.SqlServerContextFactory
-          VERSION_REGEX: <Version>(.*)<\/Version>
-          NUGET_KEY: ${{ secrets.NUGET_API_KEY }}
+          dotnet-version: 7.x
+
+      - name: Build binaries
+        run: dotnet build -c Release src/Likvido.EfCore.SqlServerContextFactory/Likvido.EfCore.SqlServerContextFactory.csproj
+
+      - name: Creating a package
+        run: dotnet pack --no-build -c Release src/Likvido.EfCore.SqlServerContextFactory/Likvido.EfCore.SqlServerContextFactory.csproj -o .
+
+      - name: Publish to Nuget
+        run: dotnet nuget push *.nupkg -s https://api.nuget.org/v3/index.json -k ${{ secrets.NUGET_API_KEY }} --skip-duplicate -n
