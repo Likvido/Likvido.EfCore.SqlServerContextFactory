@@ -35,7 +35,7 @@ namespace Likvido.EfCore.SqlServerContextFactory
             _environmentName = environmentName;
         }
 
-        public TContext CreateDbContext(string migrationsAssembly, string connectionStringName = "DefaultConnection")
+        public TContext? CreateDbContext(string migrationsAssembly, string connectionStringName = "DefaultConnection")
         {
             var optionsBuilder = new DbContextOptionsBuilder<TContext>();
             if (_loggerFactory != null)
@@ -50,7 +50,7 @@ namespace Likvido.EfCore.SqlServerContextFactory
                 .MigrationsAssembly(migrationsAssembly))
                 .Options;
 
-            return (TContext)Activator.CreateInstance(typeof(TContext), options);
+            return (TContext?)Activator.CreateInstance(typeof(TContext), options);
         }
 
         public IConfiguration GetConfiguration(string? settingsPath)
