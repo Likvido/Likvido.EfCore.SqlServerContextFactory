@@ -1,4 +1,4 @@
-# Likvido.EfCore.SqlServerContextFactory [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/likvido/Likvido.EfCore.SqlServerContextFactory/nuget.yml)](https://github.com/Likvido/Likvido.EfCore.SqlServerContextFactory/actions/workflows/nuget.yml) [![Nuget](https://img.shields.io/nuget/v/Likvido.EfCore.SqlServerContextFactory)](https://www.nuget.org/packages/Likvido.EfCore.SqlServerContextFactory/)
+# Likvido.EfCore.SqlServerContextFactory [![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/Likvido/Likvido.EfCore.SqlServerContextFactory/nuget.yml)](https://github.com/Likvido/Likvido.EfCore.SqlServerContextFactory/actions/workflows/nuget.yml) [![Nuget](https://img.shields.io/nuget/v/Likvido.EfCore.SqlServerContextFactory)](https://www.nuget.org/packages/Likvido.EfCore.SqlServerContextFactory/)
 Makes `IDesignTimeDbContextFactory` implementation simpler.
 # Usage
 ```
