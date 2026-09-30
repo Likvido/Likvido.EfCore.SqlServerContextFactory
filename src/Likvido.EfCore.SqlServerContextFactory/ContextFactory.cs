@@ -15,7 +15,7 @@ namespace Likvido.EfCore.SqlServerContextFactory
 
         private static readonly int[] TransientErrorNumbers =
         [
-            1205, 1204, -2, 35, 10054, 18456, 233, 64, 40613, 40197, 40501, 49918, 49919, 49920, 4060, 40143, 258, 40
+            1205, 1204, 35, 10054, 18456, 233, 64, 40613, 40197, 40501, 49918, 49919, 49920, 4060, 40143, 40
         ];
 
         public ContextFactory(IConfiguration configuration, ILoggerFactory loggerFactory)
