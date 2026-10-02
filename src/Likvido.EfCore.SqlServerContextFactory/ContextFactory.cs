@@ -13,6 +13,11 @@ namespace Likvido.EfCore.SqlServerContextFactory
         private IConfiguration? _configuration;
         private readonly ILoggerFactory? _loggerFactory;
 
+        private static readonly int[] TransientErrorNumbers =
+        [
+            1205, 1204, 35, 10054, 18456, 233, 64, 40613, 40197, 40501, 49918, 49919, 49920, 4060, 40143, 40
+        ];
+
         public ContextFactory(IConfiguration configuration, ILoggerFactory loggerFactory)
         {
             _configuration = configuration;
@@ -46,7 +51,7 @@ namespace Likvido.EfCore.SqlServerContextFactory
                 .UseSqlServer(
                     GetConfiguration(_settingsPath).GetConnectionString(connectionStringName),
                     opts => opts.CommandTimeout((int)TimeSpan.FromHours(1).TotalSeconds)
-                .EnableRetryOnFailure()
+                .EnableRetryOnFailure(TransientErrorNumbers)
                 .MigrationsAssembly(migrationsAssembly))
                 .Options;
 
