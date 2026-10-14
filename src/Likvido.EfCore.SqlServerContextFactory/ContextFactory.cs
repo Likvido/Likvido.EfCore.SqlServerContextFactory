@@ -40,22 +40,24 @@ namespace Likvido.EfCore.SqlServerContextFactory
             _environmentName = environmentName;
         }
 
-        public TContext? CreateDbContext(string migrationsAssembly, string connectionStringName = "DefaultConnection")
+        public TContext? CreateDbContext(string migrationsAssembly,
+        Action<DbContextOptionsBuilder<TContext>>? configureOptions = null,
+        string connectionStringName = "DefaultConnection")
         {
             var optionsBuilder = new DbContextOptionsBuilder<TContext>();
             if (_loggerFactory != null)
             {
                 optionsBuilder.UseLoggerFactory(_loggerFactory);
             }
-            var options = optionsBuilder
-                .UseSqlServer(
-                    GetConfiguration(_settingsPath).GetConnectionString(connectionStringName),
-                    opts => opts.CommandTimeout((int)TimeSpan.FromHours(1).TotalSeconds)
-                .EnableRetryOnFailure(TransientErrorNumbers)
-                .MigrationsAssembly(migrationsAssembly))
-                .Options;
+            optionsBuilder.UseSqlServer(
+                GetConfiguration(_settingsPath).GetConnectionString(connectionStringName),
+                opts => opts.CommandTimeout((int)TimeSpan.FromHours(1).TotalSeconds)
+            .EnableRetryOnFailure(TransientErrorNumbers)
+            .MigrationsAssembly(migrationsAssembly));
 
-            return (TContext?)Activator.CreateInstance(typeof(TContext), options);
+            configureOptions?.Invoke(optionsBuilder);
+
+            return (TContext?)Activator.CreateInstance(typeof(TContext), optionsBuilder.Options);
         }
 
         public IConfiguration GetConfiguration(string? settingsPath)
