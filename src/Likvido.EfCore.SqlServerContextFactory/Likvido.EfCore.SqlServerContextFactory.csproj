@@ -1,26 +1,23 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net10.0;net11.0</TargetFrameworks>
+    <TargetFramework>net11.0</TargetFramework>
     <Nullable>enable</Nullable>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
   </PropertyGroup>
 
   <Import Project="$(ProjectDir)../version.props" />
 
-  <!-- Packages that version with the runtime: the net10.0 build references 10.0.x, the net11.0 build 11.0.x. -->
-  <ItemGroup Condition="'$(TargetFramework)' == 'net10.0'">
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.14" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.14" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="10.0.14" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="10.0.14" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="10.0.14" />
-  </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'net11.0'">
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="11.0.0" />
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="11.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="11.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="11.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="11.0.0" />
+    <!-- AIKIDO-2026-11098: System.IdentityModel.Tokens.Jwt < 8.19.0 can parse stale ArrayPool bytes as
+         claims. Microsoft.Data.SqlClient 7 (via EF Core 11) brings in 8.16.0 through
+         Microsoft.IdentityModel.Protocols.OpenIdConnect, so pin both above the cutoff, together, to keep
+         the Microsoft.IdentityModel packages on one version. -->
+    <PackageReference Include="Microsoft.IdentityModel.Protocols.OpenIdConnect" Version="8.23.0" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.23.0" />
   </ItemGroup>
 </Project>
